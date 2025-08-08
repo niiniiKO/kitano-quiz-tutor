@@ -193,7 +193,7 @@ const Index = () => {
                 </div>
               </div>
 
-              <Card className="shadow-[var(--shadow-elev)]">
+              <Card key={currentQ.id} className="shadow-[var(--shadow-elev)]">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <span className="text-sm font-normal text-muted-foreground">{currentQ.department}・{currentQ.year}・問{currentQ.question_number}</span>
@@ -207,21 +207,20 @@ const Index = () => {
                     const isCorrect = checked && typeof sel === "boolean" && sel === ch.correct;
                     const isWrong = checked && typeof sel === "boolean" && sel !== ch.correct;
                     return (
-                      <div key={idx} className={`rounded-md border p-3 md:p-4 transition-colors ${isCorrect ? "ring-1 ring-[hsl(var(--success))]" : isWrong ? "border-destructive" : "border-border"}`}>
+                      <div key={`${currentQ.id}-${idx}`} className={`rounded-md border p-3 md:p-4 transition-colors ${isCorrect ? "ring-1 ring-[hsl(var(--success))]" : isWrong ? "border-destructive" : "border-border"}`}>
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                           <div className="text-sm md:text-base">{ch.text}</div>
                           <RadioGroup
                             className="flex gap-6"
-                            value={typeof sel === "boolean" ? String(sel) : undefined}
                             onValueChange={(v) => onSelect(idx, v)}
                           >
                             <div className="flex items-center space-x-2">
-                              <RadioGroupItem id={`t-${idx}`} value="true" />
-                              <Label htmlFor={`t-${idx}`}>正しい</Label>
+                              <RadioGroupItem id={`t-${currentQ.id}-${idx}`} value="true" />
+                              <Label htmlFor={`t-${currentQ.id}-${idx}`}>正しい</Label>
                             </div>
                             <div className="flex items-center space-x-2">
-                              <RadioGroupItem id={`f-${idx}`} value="false" />
-                              <Label htmlFor={`f-${idx}`}>誤り</Label>
+                              <RadioGroupItem id={`f-${currentQ.id}-${idx}`} value="false" />
+                              <Label htmlFor={`f-${currentQ.id}-${idx}`}>誤り</Label>
                             </div>
                           </RadioGroup>
                         </div>
