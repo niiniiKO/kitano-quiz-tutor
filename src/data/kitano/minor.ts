@@ -1,6 +1,6 @@
 import { DepartmentData, makeQuestionId } from "@/types/quiz";
 
-export const minorData: DepartmentData = {
+const baseMinorData = {
   "department": "マイナー科",
   "total_questions": 76,
   "hospitals": [
@@ -2226,4 +2226,17 @@ export const minorData: DepartmentData = {
       "source_file": "2022年 北野病院.json"
     }
   ]
+};
+
+export const minorData: DepartmentData = {
+  department: "マイナー科",
+  total_questions: baseMinorData.total_questions,
+  hospitals: baseMinorData.hospitals,
+  years: baseMinorData.years,
+  questions: (baseMinorData.questions as any[]).map((q: any) => ({
+    ...q,
+    department: "マイナー科",
+    id: makeQuestionId("マイナー科", q.year, q.question_number, q.content),
+    choices: (q.choices as any[]).map((c: any) => ({ ...c, correct: !!c.correct })),
+  })),
 };

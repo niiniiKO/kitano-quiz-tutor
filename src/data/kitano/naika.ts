@@ -1,6 +1,6 @@
 import { DepartmentData, makeQuestionId } from "@/types/quiz";
 
-export const naikaData: DepartmentData = {
+const baseNaikaData = {
   "department": "内科",
   "total_questions": 135,
   "hospitals": [
@@ -3933,4 +3933,17 @@ export const naikaData: DepartmentData = {
       "source_file": "2022年 北野病院.json"
     }
   ]
+};
+
+export const naikaData: DepartmentData = {
+  department: "内科",
+  total_questions: baseNaikaData.total_questions,
+  hospitals: baseNaikaData.hospitals,
+  years: baseNaikaData.years,
+  questions: (baseNaikaData.questions as any[]).map((q: any) => ({
+    ...q,
+    department: "内科",
+    id: makeQuestionId("内科", q.year, q.question_number, q.content),
+    choices: (q.choices as any[]).map((c: any) => ({ ...c, correct: !!c.correct })),
+  })),
 };

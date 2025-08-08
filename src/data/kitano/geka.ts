@@ -1,6 +1,6 @@
 import { DepartmentData, makeQuestionId } from "@/types/quiz";
 
-export const gekaData: DepartmentData = {
+const baseGekaData = {
   "department": "外科",
   "total_questions": 31,
   "hospitals": [
@@ -924,4 +924,17 @@ export const gekaData: DepartmentData = {
       "source_file": "2022年 北野病院.json"
     }
   ]
+};
+
+export const gekaData: DepartmentData = {
+  department: "外科",
+  total_questions: baseGekaData.total_questions,
+  hospitals: baseGekaData.hospitals,
+  years: baseGekaData.years,
+  questions: (baseGekaData.questions as any[]).map((q: any) => ({
+    ...q,
+    department: "外科",
+    id: makeQuestionId("外科", q.year, q.question_number, q.content),
+    choices: (q.choices as any[]).map((c: any) => ({ ...c, correct: !!c.correct })),
+  })),
 };

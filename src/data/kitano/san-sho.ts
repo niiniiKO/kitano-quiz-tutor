@@ -1,6 +1,6 @@
 import { DepartmentData, makeQuestionId } from "@/types/quiz";
 
-export const sanShoData: DepartmentData = {
+const baseSanShoData = {
   "department": "産婦人科・小児科",
   "total_questions": 78,
   "hospitals": [
@@ -2314,4 +2314,17 @@ export const sanShoData: DepartmentData = {
       "source_file": "2022年 北野病院.json"
     }
   ]
+};
+
+export const sanShoData: DepartmentData = {
+  department: "産婦人科・小児科",
+  total_questions: baseSanShoData.total_questions,
+  hospitals: baseSanShoData.hospitals,
+  years: baseSanShoData.years,
+  questions: (baseSanShoData.questions as any[]).map((q: any) => ({
+    ...q,
+    department: "産婦人科・小児科",
+    id: makeQuestionId("産婦人科・小児科", q.year, q.question_number, q.content),
+    choices: (q.choices as any[]).map((c: any) => ({ ...c, correct: !!c.correct })),
+  })),
 };
